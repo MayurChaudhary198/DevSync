@@ -1,33 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const bodyParser = require("body-parser");
+const cors = require("cors");
 require("dotenv").config();
-const User = require("./models/User")
+const User = require("./models/User");
+const Project = require("./models/Project");
+const authRoutes = require("./routes/authRoutes");
+const authController = require("./controllers/authController");
 
 // Middleware
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(cors());
+
+app.use('/api/auth',authRoutes)
 
 const MONGO_URL = process.env.MONGO_URL;
 
-// Connect to MongoDB
-async function main() {
-    try {
-        await mongoose.connect(MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log("✅ Connected to MongoDB");
-    } catch (err) {
-        console.error("❌ MongoDB connection failed:", err);
-    }
-}
-
-main();
 
 // Basic Route
 app.get("/", (req, res) => {
     res.send("👋 Hii DevSync");
 });
+
+
 
 
 //// Testing User Model
@@ -44,6 +41,23 @@ app.get("/", (req, res) => {
 //     res.send("Succesefull")
     
 // });
+
+
+// Connect to MongoDB
+async function main() {
+    try {
+        await mongoose.connect(MONGO_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("✅ Connected to MongoDB");
+    } catch (err) {
+        console.error("❌ MongoDB connection failed:", err);
+    }
+}
+
+main();
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
