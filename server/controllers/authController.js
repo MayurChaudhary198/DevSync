@@ -39,7 +39,7 @@ const login = async(req, res) => {
         const user = await User.findOne({ email });
         const errorMsg = "Auth failed email or password is wrong"
         if(!user){
-            return res.status(403)
+            return res.status(401)
                 .json({
                     message: errorMsg,
                     success: false
@@ -47,7 +47,7 @@ const login = async(req, res) => {
         }
         const isPassEqual = await bcrypt.compare(password, user.password);
         if(!isPassEqual){
-            return res.status(403)
+            return res.status(401)
                 .json({
                     message: errorMsg,
                     success: false
@@ -64,8 +64,12 @@ const login = async(req, res) => {
                     message: 'Login success',
                     success: true,
                     jwtToken,
-                    email,
-                    name:user.name
+                    user: {
+                        _id: user._id,
+                        email: user.email,
+                        name: user.name,
+                        role: user.role
+                    }
                 })
 
     } catch (err) {

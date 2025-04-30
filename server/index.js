@@ -7,14 +7,17 @@ require("dotenv").config();
 const User = require("./models/User");
 const Project = require("./models/Project");
 const authRoutes = require("./routes/authRoutes");
-const authController = require("./controllers/authController");
+const ProjectRoutes = require("./routes/projectRoutes")
 
 // Middleware
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
+//Authentication Routes
 app.use('/api/auth',authRoutes)
+//Project Routes
+app.use('/api/projects',ProjectRoutes)
 
 const MONGO_URL = process.env.MONGO_URL;
 
