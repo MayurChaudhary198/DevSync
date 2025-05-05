@@ -25,6 +25,69 @@ const createProject = async(req, res) => {
     }
 }
 
+
+const getUserProjects = async (req, res) => {
+    try {
+        const projects = await Project.find({ createdBy: req.user._id });
+
+        return res.status(200).json({
+            message: "Projects fetched successfully",
+            success: true,
+            projects
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: 'Internal server error',
+            success: false
+        });
+    }
+};
+
+
+const updateProject = async (req, res) => {
+    const { id } = req.params;
+    const { title, description, teamMembers } = req.body;
+
+    try {
+        const project = await Project.findById(id);
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+                success: false
+            });
+        }
+
+        if (project.createdBy.toString() !== req.user._id) {
+            return res.status(403).json({
+                message: "You are not authorized to update this project",
+                success: false
+            });
+        }
+
+        const updateData = { title, description, teamMembers };
+
+        const updatedProject = await Project.findByIdAndUpdate(id, updateData, { new: true });
+
+        return res.status(200).json({
+            message: "Project updated successfully",
+            success: true,
+            project: updatedProject
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: 'Internal server error',
+            success: false
+        });
+    }
+};
+
+
+
 module.exports = {
-    createProject
+    createProject,
+    getUserProjects,
+    updateProject
 }
