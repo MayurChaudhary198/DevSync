@@ -85,9 +85,111 @@ const updateProject = async (req, res) => {
 };
 
 
+const deleteProject = async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const project = await Project.findById(id);
+
+        if(!project){
+            return res.status(404).json({
+                message: "Project not found",
+                success: false
+            });
+        }
+
+        if (project.createdBy.toString() !== req.user._id) {
+            return res.status(403).json({
+                message: "You are not authorized to delete this project",
+                success: false
+            });
+        }
+
+        const deletedProject = await Project.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            message: "Project deleted successfully",
+            success: true,
+            project: deletedProject
+        });
+
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
+    }
+}
+
+
+const getProjectById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const project = await Project.findById(id);
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+                success: false
+            });
+        }
+
+        if (project.createdBy.toString() !== req.user._id) {
+            return res.status(403).json({
+                message: "You are not authorized to view this project",
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: "Project fetched successfully",
+            success: true,
+            project
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        });
+    }
+};
+
+
+const searchProjects = async(req, res) => {
+    const { title } =  req.query;
+
+    let query = { createdBy : req.user._id };
+    if(title) {
+        query.title = { $regex: title, $options: "i" };
+    }
+
+    try {
+        const projects = await Project.find(query);
+        return res.status(200).json({
+            success: true,
+            results: projects.length,
+            projects
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+
 
 module.exports = {
     createProject,
     getUserProjects,
-    updateProject
+    updateProject,
+    deleteProject,
+    getProjectById,
+    searchProjects
 }

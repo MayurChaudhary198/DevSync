@@ -1,16 +1,25 @@
 const router = require("express").Router();
 const protect  = require("../middlewares/authMiddleware");
-const { createProject, getUserProjects, updateProject} = require("../controllers/projectController");
+const { createProject, getUserProjects, updateProject, deleteProject, getProjectById, searchProjects} = require("../controllers/projectController");
 const { createProjectValidation } = require("../middlewares/projectValidation")
 
 
 //Creating New Project
 router.post("/", protect , createProjectValidation, createProject);
 
-//Show All Project
-router.get("/",protect,getUserProjects)
+//Show All Projects
+router.get("/", protect, getUserProjects)
 
 //Upadte Project
-router.put("/:id",protect, updateProject )
+router.put("/:id", protect, updateProject )
+
+//Delete Project
+router.delete("/:id", protect, deleteProject)
+
+//Show single Project
+router.get("/:id", protect, getProjectById)
+
+// Search Project
+router.get("/search", protect, searchProjects)
 
 module.exports = router;
