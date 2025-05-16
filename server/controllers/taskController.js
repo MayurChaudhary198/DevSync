@@ -5,6 +5,29 @@ const createTask = async (req, res) => {
     const { title, description, status, projectId } = req.body;
 
     try {
+        const project = await Project.findById(projectId);
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+                success: false
+            });
+        }
+
+        if (assignedTo){
+            const isCreator = project.createdBy.toString() == assignedTo;
+            const isTeamMember = project.teamMembers.includes(assignedTo);
+
+            if (!isCreator && !isTeamMember) {
+                return res.status(400).json({
+                    message: "Assigned user is not a member of this project",
+                    success: false
+                });
+            }
+        }
+
+
+
+        //Create the task
         const task = new Task({
             title,
             description,
@@ -65,12 +88,32 @@ const updateTask = async (req, res) => {
 
     try {
         const task = await Task.findById(id);
-
         if (!task) {
             return res.status(404).json({
                 message: "Task not found",
                 success: false
             });
+        }
+
+        
+        if (assignedTo) {
+            const project = await Project.findById(task.projectId);
+            if (!project) {
+                return res.status(404).json({
+                    message: "Associated project not found",
+                    success: false
+                });
+            }
+
+            const isCreator = project.createdBy.toString() === assignedTo;
+            const isTeamMember = project.teamMembers.includes(assignedTo);
+
+            if (!isCreator && !isTeamMember) {
+                return res.status(400).json({
+                    message: "Assigned user is not a member of this project",
+                    success: false
+                });
+            }
         }
 
         const updateData = {};
