@@ -115,8 +115,6 @@ const updateTask = async (req, res) => {
                 });
             }
         }  
-
-
         
         const updateData = {};
         if (title) updateData.title = title;
