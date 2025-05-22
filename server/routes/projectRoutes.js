@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const protect  = require("../middlewares/authMiddleware");
-const { createProject, getUserProjects, updateProject, deleteProject, getProjectById, searchProjects} = require("../controllers/projectController");
+const { createProject, getUserProjects, updateProject, deleteProject, getProjectById, searchProjects, getProjectDashboard} = require("../controllers/projectController");
 const { inviteToProject, removeFromProject } = require("../controllers/teamController")
 const { createProjectValidation } = require("../middlewares/projectValidation")
 
@@ -22,6 +22,9 @@ router.get("/:id", protect, getProjectById)
 
 // Search Project
 router.get("/search", protect, searchProjects)
+
+//Dashboard 
+router.get("/:id/dashboard",protect, getProjectDashboard)
 
 
 //Team member Management

@@ -1,4 +1,5 @@
 const Project = require("../models/Project");
+const Task = require("../models/Task");
 
 const createProject = async(req, res) => {
     try {
@@ -183,6 +184,52 @@ const searchProjects = async(req, res) => {
     }
 };
 
+const getProjectDashboard = async (req, res) =>  {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+                success: false
+            });
+        }
+
+        const isCreator = project.createdBy.toString() === req.user._id;
+        const isTeamMember = project.teamMembers.includes(req.user._id);
+
+         if (!isCreator && !isTeamMember) {
+            return res.status(403).json({
+                message: "You are not authorized to see this dashboard",
+                success: false
+            });
+        }
+
+        const totalTasks = await Task.countDocuments({ projectId: id });
+
+        const completed = await Task.countDocuments({ projectId: id, status: "Completed" });
+        const inProgress = await Task.countDocuments({ projectId: id, status: "In Progress" });
+        const pending = await Task.countDocuments({ projectId: id, status: "Pending" })
+
+        return res.status(200).json({
+            success: true,
+            projectId: id,
+            totalTasks,
+            completed,
+            inProgress,
+            pending,
+            teamMembers: project.teamMembers.length
+        });
+
+        
+    } catch (err) {
+         return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+}
 
 
 module.exports = {
@@ -191,5 +238,6 @@ module.exports = {
     updateProject,
     deleteProject,
     getProjectById,
-    searchProjects
+    searchProjects,
+    getProjectDashboard
 }
