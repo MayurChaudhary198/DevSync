@@ -2,7 +2,7 @@ const Project = require("../models/Project");
 const Task = require("../models/Task");
 
 const createTask = async (req, res) => {
-    const { title, description, status, projectId } = req.body;
+    const { title, description, status, projectId, assignedTo } = req.body;
 
     try {
         const project = await Project.findById(projectId);
