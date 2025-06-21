@@ -1,30 +1,46 @@
 # 🚀 DevSync – Developer Collaboration Platform
 
-DevSync is a full-stack web platform designed to help developers create profiles, showcase projects, and collaborate in real time. Built using the MERN stack, it offers secure authentication, project management features, and a responsive UI optimized for collaboration.
-
-## 🔧 Tech Stack
-
-- **Frontend:** React.js, Tailwind CSS, Framer Motion  
-- **Backend:** Node.js, Express.js  
-- **Database:** MongoDB Atlas, Mongoose  
-- **Authentication:** JWT (JSON Web Tokens)  
-- **State Management:** Redux Toolkit  
-- **Deployment:** Vercel (Frontend), Render (Backend)
+DevSync is a full-stack web application designed to help developers manage their projects, tasks, and teams efficiently. With real-time task management, team collaboration features, AI-powered project summaries, and a modern UI — DevSync is your all-in-one productivity companion.
 
 ---
 
-## ✨ Features
+## 🌟 Features
 
-- 🔐 Secure JWT-based authentication and authorization  
-- 👤 Developer profile creation and editing  
-- 📂 Project showcase with tech stacks and GitHub links  
-- 🤝 Explore and connect with other developers  
-- 📄 Integrated resume builder  
-- 📊 GitHub activity visualizer in user profiles  
-- 📱 Fully responsive UI for all devices  
-- ⚙️ Global state management using Redux Toolkit
+- ✅ **Create & Manage Projects**
+- 🧩 **Task CRUD Operations**
+- 🟡 **Status Tracking**: Pending, In Progress, Completed
+- 👥 **Team Collaboration**: Invite users via email
+- 📈 **Project Dashboard**: Task stats visualization
+- 🧠 **AI Summary of Progress** *(via GPT-3.5 on OpenRouter)*
+- 📄 **Export Tasks as CSV**
+- 🔐 **Secure JWT Authentication**
+- 📢 **Toast Notifications for UI Feedback**
+- 🧑‍💼 **Developer Profile Page**
+- 📱 **Responsive Design**
 
 ---
+
+## 🛠 Tech Stack
+
+### 🧩 Frontend
+
+- React.js (with Hooks)
+- Tailwind CSS + Material UI
+- Axios
+- React Toastify
+- React CSV Export
+- React Router DOM
+
+### 🔧 Backend
+
+- Node.js & Express.js
+- MongoDB + Mongoose
+- JWT Authentication
+- OpenRouter API (OpenAI GPT-3.5)
+- dotenv, CORS, Helmet
+
+---
+
 
 ## 🛠️ Installation
 
