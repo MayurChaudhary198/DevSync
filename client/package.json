@@ -15,6 +15,7 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "axios": "^1.9.0",
+    "mongodb": "5.5",
     "papaparse": "^5.5.3",
     "react": "^19.0.0",
     "react-csv": "^2.2.2",
