@@ -17,7 +17,7 @@ app.use(cors());
 
 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://devsync750.netlify.app/"],
+  origin: ["http://localhost:5173", "https://devsync750.netlify.app"],
   credentials: true
 }));
 
