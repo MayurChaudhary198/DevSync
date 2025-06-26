@@ -57,7 +57,7 @@ const ProjectDetails = () => {
     setGenerating(true);
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/projects/${id}/summary`,
+        `https://devsync-backend-vmun.onrender.com/api/projects/${id}/summary`,
         { tasks },
         {
           headers: {
@@ -82,7 +82,7 @@ const ProjectDetails = () => {
     const token = localStorage.getItem("token");
     try {
       const projectRes = await axios.get(
-        `http://localhost:8080/api/projects/${id}`,
+        `https://devsync-backend-vmun.onrender.com/api/projects/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -96,7 +96,7 @@ const ProjectDetails = () => {
     }
 
     try {
-      const taskRes = await axios.get(`http://localhost:8080/api/tasks/${id}`, {
+      const taskRes = await axios.get(`https://devsync-backend-vmun.onrender.com/api/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(taskRes.data.tasks);
@@ -113,7 +113,7 @@ const ProjectDetails = () => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/projects/${id}/dashboard`,
+        `https://devsync-backend-vmun.onrender.com/api/projects/${id}/dashboard`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ const ProjectDetails = () => {
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get(`http://localhost:8080/api/tasks/${id}`, {
+      const res = await axios.get(`https://devsync-backend-vmun.onrender.com/api/tasks/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -151,7 +151,7 @@ const ProjectDetails = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.delete(`http://localhost:8080/api/projects/${id}`, {
+      await axios.delete(`https://devsync-backend-vmun.onrender.com/api/projects/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -182,7 +182,7 @@ const ProjectDetails = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/projects/${id}/invite`,
+        `https://devsync-backend-vmun.onrender.com/api/projects/${id}/invite`,
         { email: inviteEmail },
         {
           headers: {
@@ -227,7 +227,7 @@ const ProjectDetails = () => {
 
     try {
       await axios.post(
-        "http://localhost:8080/api/tasks",
+        `https://devsync-backend-vmun.onrender.com/api/tasks`,
         {
           ...formData,
           projectId: id,

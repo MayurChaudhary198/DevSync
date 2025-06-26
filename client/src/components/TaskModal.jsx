@@ -26,7 +26,7 @@ const TaskModal = ({ open, onClose, taskId, onUpdate, teamMembers  }) => {
 
             const token = localStorage.getItem("token");
             try {
-                const res = await axios.get(`http://localhost:8080/api/tasks/single/${taskId}`, {
+                const res = await axios.get(`https://devsync-backend-vmun.onrender.com/api/tasks/single/${taskId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -53,7 +53,7 @@ const TaskModal = ({ open, onClose, taskId, onUpdate, teamMembers  }) => {
         try {
             setLoading(true);
             await axios.put(
-                `http://localhost:8080/api/tasks/${taskId}`,
+                `https://devsync-backend-vmun.onrender.com/api/tasks/${taskId}`,
                 taskData,
                 {
                     headers: { Authorization: `Bearer ${token}` },
@@ -77,7 +77,7 @@ const TaskModal = ({ open, onClose, taskId, onUpdate, teamMembers  }) => {
         const token = localStorage.getItem("token");
         try {
             setLoading(true);
-            await axios.delete(`http://localhost:8080/api/tasks/${taskId}`, {
+            await axios.delete(`https://devsync-backend-vmun.onrender.com/api/tasks/${taskId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             toast.success("Task Deleted Sucessfully!");

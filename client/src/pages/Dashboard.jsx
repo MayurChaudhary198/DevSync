@@ -15,7 +15,7 @@ const Dashboard = () => {
   const fetchProjects = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8080/api/projects", {
+      const res = await axios.get("https://devsync-backend-vmun.onrender.com/api/projects", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMyProjects(res.data.myProjects || []);

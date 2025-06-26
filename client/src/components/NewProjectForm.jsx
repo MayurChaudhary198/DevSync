@@ -15,7 +15,7 @@ const NewProjectForm = ({ onClose, onSuccess }) => {
   }
 
     try {
-      await axios.post("http://localhost:8080/api/projects", formData, {
+      await axios.post("https://devsync-backend-vmun.onrender.com/api/projects", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
