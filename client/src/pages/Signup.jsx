@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../axios"; 
 import { TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
