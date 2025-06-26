@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const protect  = require("../middlewares/authMiddleware");
-const { createTask, getTasks, updateTask , deleteTask} = require("../controllers/taskController");
+const { createTask, getTasks, updateTask , deleteTask, getTaskById } = require("../controllers/taskController");
 const { createTaskValidation } = require("../middlewares/taskValidation");
 
 //Creating New Task
@@ -14,5 +14,8 @@ router.put("/:id", protect, updateTask);
 
 //Delete Tasks
 router.delete("/:id", protect, deleteTask);
+
+// get one task by ID
+router.get("/single/:id", protect, getTaskById); 
 
 module.exports = router;

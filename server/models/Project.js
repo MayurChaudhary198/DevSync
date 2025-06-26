@@ -15,7 +15,8 @@ const projectSchema = new mongoose.Schema({
     },
     teamMembers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        default: []
     }],
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,

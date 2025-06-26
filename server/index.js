@@ -15,6 +15,12 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
+
+app.use(cors({
+  origin: ["http://localhost:5173", "https://your-frontend-url.netlify.app"],
+  credentials: true
+}));
+
 //Authentication Routes
 app.use('/api/auth',authRoutes);
 //Project Routes

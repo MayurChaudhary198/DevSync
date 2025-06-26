@@ -28,21 +28,28 @@ const createProject = async(req, res) => {
 
 
 const getUserProjects = async (req, res) => {
-    try {
-        const projects = await Project.find({ createdBy: req.user._id });
+  try {
+    const userId = req.user._id;
 
-        return res.status(200).json({
-            message: "Projects fetched successfully",
-            success: true,
-            projects
-        });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            message: 'Internal server error',
-            success: false
-        });
-    }
+    // Fetch projects created by the user
+    const myProjects = await Project.find({ createdBy: userId });
+
+    // Fetch projects where the user is a team member
+    const sharedProjects = await Project.find({ teamMembers: userId });
+
+    return res.status(200).json({
+      message: "Projects fetched successfully",
+      success: true,
+      myProjects,
+      sharedProjects,
+    });
+  } catch (err) {
+    console.error("Error fetching projects:", err);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
 };
 
 
@@ -126,38 +133,43 @@ const deleteProject = async(req, res) => {
 
 
 const getProjectById = async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    try {
-        const project = await Project.findById(id);
+  try {
+    const project = await Project.findById(id).populate("teamMembers", "name email");
 
-        if (!project) {
-            return res.status(404).json({
-                message: "Project not found",
-                success: false
-            });
-        }
-
-        if (project.createdBy.toString() !== req.user._id) {
-            return res.status(403).json({
-                message: "You are not authorized to view this project",
-                success: false
-            });
-        }
-
-        return res.status(200).json({
-            message: "Project fetched successfully",
-            success: true,
-            project
-        });
-
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            message: "Internal server error",
-            success: false
-        });
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found",
+        success: false
+      });
     }
+
+    const isCreator = project.createdBy.toString() === req.user._id;
+    const isTeamMember = project.teamMembers.some(
+      (member) => member._id.toString() === req.user._id
+    );
+
+    if (!isCreator && !isTeamMember) {
+      return res.status(403).json({
+        message: "You are not authorized to view this project",
+        success: false
+      });
+    }
+
+    return res.status(200).json({
+      message: "Project fetched successfully",
+      success: true,
+      project
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false
+    });
+  }
 };
 
 

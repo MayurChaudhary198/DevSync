@@ -152,7 +152,16 @@ const deleteTask = async (req, res) => {
             });
         }
 
-        if (Project.createdBy.toString() !== req.user._id) {
+        const project = await Project.findById(task.projectId);
+
+        if (!project) {
+            return res.status(404).json({
+                message: "Associated project not found",
+                success: false
+            });
+        }
+
+        if (project.createdBy.toString() !== req.user._id) {
             return res.status(403).json({
                 message: "You are not authorized to delete this task",
                 success: false
@@ -176,10 +185,23 @@ const deleteTask = async (req, res) => {
     }
 };
 
+const getTaskById = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found", success: false });
+    }
+    return res.status(200).json({ success: true, task });
+  } catch (err) {
+    return res.status(500).json({ message: "Internal server error", success: false });
+  }
+};
+
 
 module.exports = {
     createTask,
     getTasks,
     updateTask,
     deleteTask,
+    getTaskById
 }
